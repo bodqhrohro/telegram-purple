@@ -77,7 +77,7 @@ connection_data *pbn_get_data (PurpleBlistNode *node) {
 
 int p2tgl_status_is_present (PurpleStatus *status) {
   const char *name = purple_status_get_id (status);
-  return !(strcmp (name, "unavailable") == 0 || strcmp (name, "away") == 0);
+  return !(strcmp (name, "unavailable") == 0 || strcmp (name, "extended_away") == 0);
 }
 
 void tgp_chat_got_in (struct tgl_state *TLS, tgl_peer_t *chat, tgl_peer_id_t from, const char *message,
@@ -150,8 +150,8 @@ void p2tgl_prpl_got_user_status (struct tgl_state *TLS, tgl_peer_id_t user, stru
       debug ("offline");
       purple_prpl_got_user_status (tls_get_pa (TLS), tgp_blist_lookup_purple_name (TLS, user), "offline", NULL);
     } else {
-      debug ("mobile");
-      purple_prpl_got_user_status (tls_get_pa (TLS), tgp_blist_lookup_purple_name (TLS, user), "mobile", NULL);
+      debug ("away");
+      purple_prpl_got_user_status (tls_get_pa (TLS), tgp_blist_lookup_purple_name (TLS, user), "away", NULL);
     }
   }
 }

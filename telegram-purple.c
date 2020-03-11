@@ -281,6 +281,10 @@ static const char *tgprpl_list_icon (PurpleAccount *acct, PurpleBuddy *buddy) {
   return "telegram";
 }
 
+static const char *tgprpl_list_emblem (PurpleBuddy *buddy) {
+  return NULL;
+}
+
 static void tgprpl_tooltip_text (PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean full) {
   // buddy in old format that didn't migrate
   if (! tgp_blist_buddy_has_id (buddy)) {
@@ -303,6 +307,9 @@ static GList *tgprpl_status_types (PurpleAccount *acct) {
   type = purple_status_type_new_full (PURPLE_STATUS_AVAILABLE, NULL, NULL, FALSE, TRUE, FALSE);
   types = g_list_prepend (types, type);
   
+  type = purple_status_type_new_full (PURPLE_STATUS_AWAY, NULL, NULL, FALSE, TRUE, FALSE);
+  types = g_list_prepend (types, type);
+
   type = purple_status_type_new_full (PURPLE_STATUS_MOBILE, NULL, NULL, FALSE, TRUE, FALSE);
   types = g_list_prepend (types, type);
 
@@ -314,7 +321,7 @@ static GList *tgprpl_status_types (PurpleAccount *acct) {
     state changes to away and unavailable. This is useful for deciding when to send 
     No other peer should ever have those states.
    */
-  type = purple_status_type_new_full (PURPLE_STATUS_AWAY, NULL, NULL, FALSE, TRUE, FALSE);
+  type = purple_status_type_new_full (PURPLE_STATUS_EXTENDED_AWAY, NULL, NULL, FALSE, TRUE, FALSE);
   types = g_list_prepend (types, type);
   
   type = purple_status_type_new_full (PURPLE_STATUS_UNAVAILABLE, NULL, NULL, FALSE, TRUE, FALSE);
@@ -723,7 +730,7 @@ static PurplePluginProtocolInfo prpl_info = {
     PURPLE_ICON_SCALE_SEND,
   },
   tgprpl_list_icon,
-  NULL,
+  tgprpl_list_emblem,
   NULL,
   tgprpl_tooltip_text,
   tgprpl_status_types,
